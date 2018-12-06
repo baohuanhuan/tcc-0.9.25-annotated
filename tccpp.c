@@ -253,7 +253,7 @@ static inline void inp(void)
 }
 
 /* handle '\[\r]\n' */
-/* ´¦Àí»»ĞĞ£¬·µ»Ø1ÔòÊ§°Ü£¬0Îª³É¹¦ */
+/* å¤„ç†æ¢è¡Œï¼Œè¿”å›1åˆ™å¤±è´¥ï¼Œ0ä¸ºæˆåŠŸ */
 static int handle_stray_noerror(void)
 {
     while (ch == '\\') {
@@ -2418,7 +2418,7 @@ static int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
                 } else {
                     /* NOTE: the stream cannot be read when macro
                        substituing an argument */
-                    /* Ìæ»»²ÎÊıºêµÄÊ±ºò£¬ÎŞ·¨´ÓÔ´Âë×Ö½ÚÁ÷´Ó¶ÁÈ¡Êı¾İ */
+                    /* æ›¿æ¢å‚æ•°å®çš„æ—¶å€™ï¼Œæ— æ³•ä»æºç å­—èŠ‚æµä»è¯»å–æ•°æ® */
                     macro_subst(&str, nested_list, st, NULL);
                 }
             } else {
@@ -2443,7 +2443,7 @@ static char const ab_month_name[12][4] =
    result to (tok_str,tok_len). 'nested_list' is the list of all
    macros we got inside to avoid recursing. Return non zero if no
    substitution needs to be done */
-/* Õ¹¿ªºê's'£¬nested_listÓÃÓÚ±ÜÃâµİ¹éÕ¹¿ª */
+/* å±•å¼€å®'s'ï¼Œnested_listç”¨äºé¿å…é€’å½’å±•å¼€ */
 static int macro_subst_tok(TokenString *tok_str,
                            Sym **nested_list, Sym *s, struct macro_level **can_read_stream)
 {
@@ -2574,7 +2574,7 @@ static int macro_subst_tok(TokenString *tok_str,
             }
 
             /* now subst each arg */
-            /* Ìæ»»º¯ÊıºêÃ¿¸ö²ÎÊı */
+            /* æ›¿æ¢å‡½æ•°å®æ¯ä¸ªå‚æ•° */
             mstr = macro_arg_subst(nested_list, mstr, args);
             /* free memory */
             sa = args;
@@ -2587,12 +2587,12 @@ static int macro_subst_tok(TokenString *tok_str,
             mstr_allocated = 1;
         }
 
-        /* ½«µ±Ç°ºê's'¼ÓÈëµ½nested_list£¬±ÜÃâµİ¹éÕ¹¿ª */
+        /* å°†å½“å‰å®'s'åŠ å…¥åˆ°nested_listï¼Œé¿å…é€’å½’å±•å¼€ */
         sym_push2(nested_list, s->v, 0, 0);
         macro_subst(tok_str, nested_list, mstr, can_read_stream);
 
         /* pop nested defined symbol */
-        /* ½«µ±Ç°ºê's'µ¯³önested_list */
+        /* å°†å½“å‰å®'s'å¼¹å‡ºnested_list */
         sa1 = *nested_list;
         *nested_list = sa1->prev;
         sym_free(sa1);
@@ -2605,6 +2605,7 @@ static int macro_subst_tok(TokenString *tok_str,
 
 /* handle the '##' operator. Return NULL if no '##' seen. Otherwise
    return the resulting string (which must be freed). */
+/* å¤„ç†'##'æ“ä½œç¬¦ï¼Œå¦‚æœæ²¡æœ‰'##'æ“ä½œç¬¦åˆ™è¿”å›NULLã€‚å¦åˆ™è¿”å›'##'è¿æ¥åçš„å­—ç¬¦ä¸² */
 static inline int *macro_twosharps(const int *macro_str)
 {
     TokenSym *ts;
@@ -2705,6 +2706,8 @@ static inline int *macro_twosharps(const int *macro_str)
                     error_pasting:
                         /* NOTE: because get_tok_str use a static buffer,
                            we must save it */
+                        /* æ³¨æ„ï¼šå› ä¸ºget_tok_strä½¿ç”¨äº†é™æ€å˜é‡ï¼Œæ‰€ä»¥æˆ‘ä»¬éœ€è¦
+                            ä¿å­˜å®ƒã€‚*/
                         cstr_reset(&cstr);
                         p1 = get_tok_str(tok, &tokc);
                         cstr_cat(&cstr, p1);
@@ -2759,7 +2762,7 @@ static void macro_subst(TokenString *tok_str, Sym **nested_list,
         s = define_find(t);
         if (s != NULL) {
             /* if nested substitution, do nothing */
-            /* Èç¹ûºêµİ¹éÕ¹¿ª£¬Ôò²»½øĞĞÕ¹¿ª */
+            /* å¦‚æœå®é€’å½’å±•å¼€ï¼Œåˆ™ä¸è¿›è¡Œå±•å¼€ */
             if (sym_find2(*nested_list, t))
                 goto no_subst;
             ml.p = macro_ptr;
@@ -2797,7 +2800,7 @@ static void next(void)
     else
         next_nomacro();
     if (!macro_ptr) {
-        /* Èç¹û²»ÊÇ´ÓÒÑÌæ»»µÄºêÁĞ±í»ñÈ¡µÄtoken£¬Ôò³¢ÊÔ½«¸ÃtokenÌæ»» */
+        /* å¦‚æœä¸æ˜¯ä»å·²æ›¿æ¢çš„å®åˆ—è¡¨è·å–çš„tokenï¼Œåˆ™å°è¯•å°†è¯¥tokenæ›¿æ¢ */
         /* if not reading from macro substituted string, then try
            to substitute macros */
         if (tok >= TOK_IDENT &&
@@ -2805,11 +2808,13 @@ static void next(void)
             s = define_find(tok);
             if (s) {
                 /* we have a macro: we try to substitute */
+                /* â€˜sâ€™æ˜¯ä¸€ä¸ªå®ï¼Œå°è¯•æ›¿æ¢å®ƒ */
                 tok_str_new(&str);
                 nested_list = NULL;
                 ml = NULL;
                 if (macro_subst_tok(&str, &nested_list, s, &ml) == 0) {
                     /* substitution done, NOTE: maybe empty */
+                    /* æ›¿æ¢å®Œæˆï¼Œæ³¨æ„ï¼šä¹Ÿå¯èƒ½ä¸ºç©º */
                     tok_str_add(&str, 0);
                     macro_ptr = str.str;
                     macro_ptr_allocated = str.str;
@@ -2833,6 +2838,7 @@ static void next(void)
     }
     
     /* convert preprocessor tokens into C tokens */
+    /* æŠŠé¢„ç¼–è¯‘å™¨çš„tokenè½¬ä¸ºCçš„token */
     if (tok == TOK_PPNUM &&
         (parse_flags & PARSE_FLAG_TOK_NUM)) {
         parse_number((char *)tokc.cstr->data);
@@ -2903,7 +2909,7 @@ void preprocess_new()
 }
 
 /* Preprocess the current file */
-/* Ô¤´¦Àíµ±Ç°ÎÄ¼ş */
+/* é¢„å¤„ç†å½“å‰æ–‡ä»¶ */
 static int tcc_preprocess(TCCState *s1)
 {
     Sym *define_start;

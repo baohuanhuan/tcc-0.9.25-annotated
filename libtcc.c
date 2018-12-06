@@ -27,21 +27,21 @@
 int total_lines;
 int total_bytes;
 /* parser */
-static struct BufferedFile *file;   /* µ±Ç°½âÎöµÄ×Ö½ÚÁ÷ */
+static struct BufferedFile *file;   /* å½“å‰è§£æçš„å­—èŠ‚æµ */
 static int ch;
 static int tok;
 static CValue tokc;
 static CString tokcstr; /* current parsed string, if any */
 /* additional informations about token */
 static int tok_flags;
-#define TOK_FLAG_BOL   0x0001 /* beginning of line before */        /* tokenÆğÊ¼ÓÚÒ»ĞĞµÄ¿ªÊ¼´¦ */
-#define TOK_FLAG_BOF   0x0002 /* beginning of file before */        /* tokenÆğÊ¼ÓÚÎÄ¼şµÄÆğÊ¼´¦ */
+#define TOK_FLAG_BOL   0x0001 /* beginning of line before */        /* tokenèµ·å§‹äºä¸€è¡Œçš„å¼€å§‹å¤„ */
+#define TOK_FLAG_BOF   0x0002 /* beginning of file before */        /* tokenèµ·å§‹äºæ–‡ä»¶çš„èµ·å§‹å¤„ */
 #define TOK_FLAG_ENDIF 0x0004 /* a endif was found matching starting #ifdef */
-#define TOK_FLAG_EOF   0x0008 /* end of file */                     /* ÎÄ¼ş½áÊø */
+#define TOK_FLAG_EOF   0x0008 /* end of file */                     /* æ–‡ä»¶ç»“æŸ */
 
 static int *macro_ptr, *macro_ptr_allocated;
 static int *unget_saved_macro_ptr;
-static int unget_saved_buffer[TOK_MAX_SIZE + 1];                    /* ±£´æÍË»ØµÄtokenÁĞ±í */
+static int unget_saved_buffer[TOK_MAX_SIZE + 1];                    /* ä¿å­˜é€€å›çš„tokenåˆ—è¡¨ */
 static int unget_buffer_enabled;
 static int parse_flags;
 #define PARSE_FLAG_PREPROCESS 0x0001 /* activate preprocessing */
